@@ -29,5 +29,6 @@ export default {
     meta: {
         app_id: process.env['META_APP_ID'],
         redirect_uri: process.env['META_REDIRECT_URI'],
+        config_id: process.env['META_APP_CONFIG_ID'],
     },
 };
