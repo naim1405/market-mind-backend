@@ -7,6 +7,7 @@ import { UserRole } from '../../../generated/prisma/enums';
 
 const router = express.Router();
 
+router.get('/facebook', AuthController.loginUserByFacebook);
 router.post(
     '/login',
     validateRequest(AuthValidation.loginZodSchema),

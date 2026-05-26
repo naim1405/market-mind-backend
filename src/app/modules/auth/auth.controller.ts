@@ -66,7 +66,16 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const loginUserByFacebook = catchAsync(async (req: Request, res: Response) => {
+    const sessionId = 'super_sucure_uniq_session_id';
+    const state = 'super_sucure_uniq_state';
+    // Store the sessionId and state in your database or cache for later verification
+    const redirectUrl = `https://www.facebook.com/v25.0/dialog/oauth?client_id=${config.meta.app_id}&redirect_uri=${config.meta.redirect_uri}&state=${state}`;
+
+    res.redirect(redirectUrl);
+});
 export const AuthController = {
+    loginUserByFacebook,
     loginUser,
     getTokenForTest,
     changePassword,
