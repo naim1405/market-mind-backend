@@ -26,4 +26,8 @@ export default {
     },
     reset_link: process.env['RESET_LINK'],
     bycrypt_salt_rounds: process.env['SALT_ROUND'],
+    meta: {
+        app_id: process.env['META_APP_ID'],
+        redirect_uri: process.env['META_REDIRECT_URI'],
+    },
 };
