@@ -34,7 +34,7 @@ services:
             - bash
             - -c
             - |
-                until mongosh --host db:27017 --quiet --eval "db.adminCommand('ping').ok" > /dev/null 2>&1; do
+                until mongosh --host mongodb:27017 --quiet --eval "db.adminCommand('ping').ok" > /dev/null 2>&1; do
                   sleep 1
                 done
                 mongosh --host mongodb:27017 --quiet --eval "try { rs.status() } catch (e) { rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'mongodb:27017'}]}) }"
