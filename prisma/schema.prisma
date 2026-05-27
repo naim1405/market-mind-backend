@@ -1,71 +1,71 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  email     String     @unique
-  phone     String     @unique
-  password  String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  status    UserStatus @default(ACTIVE)
-  role      UserRole
+    id        String     @id @default(auto()) @map("_id") @db.ObjectId
+    email     String     @unique
+    phone     String     @unique
+    password  String
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    status    UserStatus @default(ACTIVE)
+    role      UserRole
 
-  activeTokens ActiveToken[]
-  tenants      Tenant[]
+    activeTokens ActiveToken[]
+    tenants      Tenant[]
 
-  @@map("users")
+    @@map("users")
 }
 
 model Tenant {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  userId    String   @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    userId    String   @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id])
 
-  @@map("tenants")
+    @@map("tenants")
 }
 
 model ActiveToken {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  tokenId    String    @unique
-  userId     String    @db.ObjectId
-  ipAddress  String?
-  deviceInfo Json?
-  lastUsed   DateTime  @default(now())
-  expiresAt  DateTime
-  createdAt  DateTime  @default(now())
-  tokenType  TokenType
+    id         String    @id @default(auto()) @map("_id") @db.ObjectId
+    tokenId    String    @unique
+    userId     String    @db.ObjectId
+    ipAddress  String?
+    deviceInfo Json?
+    lastUsed   DateTime  @default(now())
+    expiresAt  DateTime
+    createdAt  DateTime  @default(now())
+    tokenType  TokenType
 
-  user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id])
 
-  @@map("active_token")
+    @@map("active_token")
 }
 
 enum TokenType {
-  ACCESS
-  REFRESH
+    ACCESS
+    REFRESH
 }
 
 enum UserRole {
-  SUPER_ADMIN
-  ADMIN
-  CUSTOMER
+    SUPER_ADMIN
+    ADMIN
+    CUSTOMER
 }
 
 enum UserStatus {
-  BLOCKED
-  ACTIVE
-  PENDING
-  DELETED
+    BLOCKED
+    ACTIVE
+    PENDING
+    DELETED
 }
