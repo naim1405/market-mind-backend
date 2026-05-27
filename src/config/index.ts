@@ -28,6 +28,7 @@ export default {
     bycrypt_salt_rounds: process.env['SALT_ROUND'],
     meta: {
         app_id: process.env['META_APP_ID'],
+        app_secret: process.env['META_APP_SECRET'],
         redirect_uri: process.env['META_REDIRECT_URI'],
         config_id: process.env['META_APP_CONFIG_ID'],
     },
