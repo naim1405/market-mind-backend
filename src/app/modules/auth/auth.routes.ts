@@ -24,19 +24,19 @@ router.post(
 router.post(
     '/change-password',
     validateRequest(AuthValidation.changePasswordZodSchema),
-    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.CUSTOMER),
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER),
     AuthController.changePassword
 );
 
 router.get(
     '/me',
-    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.CUSTOMER),
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER),
     AuthController.getMe
 );
 
 router.post(
     '/logout',
-    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.CUSTOMER),
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER),
     AuthController.logoutUser
 );
 

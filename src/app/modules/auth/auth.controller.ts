@@ -70,7 +70,7 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const loginUserByFacebook = catchAsync(async (req: Request, res: Response) => {
-    const _sessionId = crypto.randomUUID();
+    // const _sessionId = crypto.randomUUID();
     //TODO: store sessionId in db, and set in cookie.
     const state = crypto.randomUUID();
     const requestedPermissions = [

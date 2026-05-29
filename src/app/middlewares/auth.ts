@@ -27,7 +27,7 @@ const auth =
                 tokenPair.accessToken
             );
 
-            const { userId, role, tokenId, type, phone, email } = decodedValue;
+            const { userId, role, tokenId, type, email } = decodedValue;
 
             if (type !== 'ACCESS') {
                 throw new ApiError(
@@ -53,7 +53,7 @@ const auth =
                 );
             }
 
-            req.user = { userId, role, phone, email };
+            req.user = { userId, role, email };
             return next();
         } catch (error: any) {
             if (error.message === 'jwt expired') {
@@ -71,8 +71,7 @@ const auth =
                         tokenPair.refreshToken
                     );
 
-                    const { userId, role, tokenId, type, phone, email } =
-                        decodedValue;
+                    const { userId, role, tokenId, type, email } = decodedValue;
 
                     const accessTokenId = tokenId.split('_')[1];
 
@@ -104,7 +103,7 @@ const auth =
                     const newTokenPair = await jwtHelpers.generateTokenPair({
                         userId,
                         role,
-                        phone,
+
                         email,
                     });
 
@@ -148,7 +147,7 @@ const auth =
                         newTokenPair.accessToken,
                         newTokenPair.refreshToken
                     );
-                    req.user = { phone, userId, email, role };
+                    req.user = { userId, email, role };
 
                     return next();
                 } catch (refreshError) {

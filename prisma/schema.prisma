@@ -9,12 +9,13 @@ datasource db {
 }
 
 model User {
-    id     String     @id @default(auto()) @map("_id") @db.ObjectId
-    email  String     @unique
-    phone  String?    @unique
-    name   String
-    status UserStatus @default(ACTIVE)
-    role   UserRole
+    id       String     @id @default(auto()) @map("_id") @db.ObjectId
+    email    String     @unique
+    phone    String?    @unique
+    name     String
+    status   UserStatus @default(ACTIVE)
+    role     UserRole
+    password String?
 
     activeTokens  ActiveToken[]
     tenants       Tenant[]
