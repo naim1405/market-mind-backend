@@ -142,9 +142,90 @@ const logout = async (req: Request) => {
     });
 };
 
+const handleFacebookCallback = async (req: Request, code: string) => {
+    const codeVerification = await facebookClient.verifyCode(code);
+
+    const { access_token } = codeVerification;
+    const user = await facebookClient.getMe(access_token);
+    const { id: userId, accounts: { data: accounts } = { data: [] } } = user;
+
+    //NOTE: name and email are optional. maybe add custom prompt for these info?
+    let { name = userId, email = userId } = user as any;
+
+    const result = await prisma.$transaction(async (tx) => {
+        const user = await tx.user.upsert({
+            where: {
+                email,
+            },
+            update: {
+                facebookId: userId,
+                facebookToken: access_token,
+            },
+            create: {
+                email,
+                name,
+                role: 'USER',
+                facebookId: userId,
+                facebookToken: access_token,
+            },
+        });
+        await Promise.all(
+            accounts.map(async (account) => {
+                await tx.tenant.upsert({
+                    where: {
+                        pageId: account.id,
+                    },
+                    update: {
+                        name: account.name,
+                        facebookAccessToken: account.access_token,
+                    },
+                    create: {
+                        name: account.name,
+                        pageId: account.id,
+                        facebookAccessToken: account.access_token,
+                        user: {
+                            connect: {
+                                id: user.id,
+                            },
+                        },
+                    },
+                });
+            })
+        );
+        return user;
+    });
+
+    const JwtPayload = {
+        userId: result.id,
+        role: result.role,
+        email: result.email,
+    };
+
+    const token = await jwtHelpers.generateTokenPair(JwtPayload);
+
+    await prisma.activeToken.deleteMany({
+        where: {
+            userId: result.id,
+        },
+    });
+    const { device, ip } = getDeviceInfo(req);
+
+    await createPrismaToken({
+        id: result.id,
+        tokenId: token.tokenId,
+        ip,
+        device,
+    });
+
+    return {
+        access: token.accessToken,
+        refresh: token.refreshToken,
+    };
+};
 export const AuthService = {
     loginUser,
     changePassword,
     getMe,
     logout,
+    handleFacebookCallback,
 };

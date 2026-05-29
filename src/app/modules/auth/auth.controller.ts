@@ -74,6 +74,31 @@ const loginUserByFacebook = catchAsync(async (req: Request, res: Response) => {
 
     res.redirect(redirectUrl);
 });
+const facebookCallback = catchAsync(async (req: Request, res: Response) => {
+    const { code, error = null } = req.query;
+    if (error) {
+        throw new ApiError(
+            httpStatus.BAD_REQUEST,
+            'Facebook authentication failed'
+        );
+    }
+
+    if (!code) {
+        throw new ApiError(
+            httpStatus.BAD_REQUEST,
+            'Authorization code is missing'
+        );
+    }
+
+    //TODO: do state check
+
+    const result = await AuthService.handleFacebookCallback(
+        req,
+        code as string
+    );
+    AuthCookie.setAuthCookies(res, result.access, result.refresh);
+    res.redirect(config.frontend_url as string);
+});
 export const AuthController = {
     loginUserByFacebook,
     loginUser,
@@ -81,4 +106,5 @@ export const AuthController = {
     changePassword,
     getMe,
     logoutUser,
+    facebookCallback,
 };
