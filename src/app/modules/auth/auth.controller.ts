@@ -5,6 +5,9 @@ import { AuthCookie } from '../../../helpers/authCookies';
 import catchAsync from '../../../lib/catchAsync';
 import sendResponse from '../../../lib/sendResponse';
 import type { JWTPayload } from '../../../interface';
+import config from '../../../config/index';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from '../../../const/httpStatus';
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
     const result = await AuthService.loginUser(req);
@@ -82,6 +85,7 @@ const loginUserByFacebook = catchAsync(async (req: Request, res: Response) => {
 
     res.redirect(redirectUrl);
 });
+
 const facebookCallback = catchAsync(async (req: Request, res: Response) => {
     const { code, error = null } = req.query;
     if (error) {
@@ -107,6 +111,7 @@ const facebookCallback = catchAsync(async (req: Request, res: Response) => {
     AuthCookie.setAuthCookies(res, result.access, result.refresh);
     res.redirect(config.frontend_url as string);
 });
+
 export const AuthController = {
     loginUserByFacebook,
     loginUser,
