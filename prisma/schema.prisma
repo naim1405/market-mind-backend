@@ -9,27 +9,32 @@ datasource db {
 }
 
 model User {
-    id        String     @id @default(auto()) @map("_id") @db.ObjectId
-    email     String     @unique
-    phone     String     @unique
-    password  String
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-    status    UserStatus @default(ACTIVE)
-    role      UserRole
+    id     String     @id @default(auto()) @map("_id") @db.ObjectId
+    email  String     @unique
+    phone  String?    @unique
+    name   String
+    status UserStatus @default(ACTIVE)
+    role   UserRole
 
-    activeTokens ActiveToken[]
-    tenants      Tenant[]
+    activeTokens  ActiveToken[]
+    tenants       Tenant[]
+    facebookId    String        @unique
+    facebookToken String        @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@map("users")
 }
 
 model Tenant {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
-    userId    String   @db.ObjectId
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+    name                String
+    userId              String   @db.ObjectId
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
+    pageId              String   @unique
+    facebookAccessToken String   @unique
 
     user User @relation(fields: [userId], references: [id])
 
@@ -60,7 +65,7 @@ enum TokenType {
 enum UserRole {
     SUPER_ADMIN
     ADMIN
-    CUSTOMER
+    USER
 }
 
 enum UserStatus {
