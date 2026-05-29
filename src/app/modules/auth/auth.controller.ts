@@ -67,10 +67,18 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const loginUserByFacebook = catchAsync(async (req: Request, res: Response) => {
-    const sessionId = crypto.randomUUID();
+    const _sessionId = crypto.randomUUID();
+    //TODO: store sessionId in db, and set in cookie.
     const state = crypto.randomUUID();
+    const requestedPermissions = [
+        'email',
+        'public_profile',
+        'pages_show_list',
+        'pages_manage_metadata',
+        'pages_messaging',
+    ].join(',');
     // Store the sessionId and state in your database or cache for later verification
-    const redirectUrl = `https://www.facebook.com/v25.0/dialog/oauth?client_id=${config.meta.app_id}&redirect_uri=${config.meta.redirect_uri}&state=${state}&config_id=${config.meta.config_id}`;
+    const redirectUrl = `https://www.facebook.com/v25.0/dialog/oauth?client_id=${config.meta.app_id}&redirect_uri=${config.meta.redirect_uri}&state=${state}&response_type=code&scope=${requestedPermissions}`;
 
     res.redirect(redirectUrl);
 });
