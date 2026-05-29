@@ -31,5 +31,6 @@ export default {
         app_secret: process.env['META_APP_SECRET'],
         redirect_uri: process.env['META_REDIRECT_URI'],
         config_id: process.env['META_APP_CONFIG_ID'],
+        webhook_verify_token: process.env['META_WEBHOOK_TOKEN'],
     },
 };
