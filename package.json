@@ -10,11 +10,11 @@
 		"dev": "nodemon -L --watch src --ext ts,json --exec \"tsx src/server.ts\"",
 		"start": "node dist/server.js",
 		"build": "tsc",
-		"migrate": "npx prisma migrate dev --name init",
 		"generate": "npx prisma generate",
 		"studio": "npx prisma studio",
 		"seed": "tsx prisma/seed.ts",
-		"genKey": "tsx genKeyPair.ts"
+		"genKey": "tsx genKeyPair.ts",
+		"pris": "npx prisma db push"
 	},
 	"keywords": [],
 	"author": "",
