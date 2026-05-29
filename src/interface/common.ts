@@ -36,5 +36,4 @@ export type JWTPayload = {
     userId: string;
     role: UserRole;
     email: string;
-    phone: string;
 };
