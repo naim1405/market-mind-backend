@@ -9,6 +9,7 @@ import type { IChangePassword, ILoginUser } from './auth.interface';
 import { prisma } from '../../../lib/prisma';
 import { UserStatus } from '../../../generated/prisma/enums';
 import type { JWTPayload } from '../../../interface';
+import { facebookClient } from '../facebook/facebook.client';
 
 const loginUser = async (req: Request) => {
     const payload: ILoginUser = req.body;
@@ -222,6 +223,7 @@ const handleFacebookCallback = async (req: Request, code: string) => {
         refresh: token.refreshToken,
     };
 };
+
 export const AuthService = {
     loginUser,
     changePassword,
