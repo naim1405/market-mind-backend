@@ -36,6 +36,7 @@ model Tenant {
     updatedAt           DateTime @updatedAt
     pageId              String   @unique
     facebookAccessToken String   @unique
+    isSubscribed        Boolean  @default(false)
 
     user User @relation(fields: [userId], references: [id])
 
