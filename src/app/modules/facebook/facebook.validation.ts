@@ -28,5 +28,4 @@ export const FacebookUserSchema = z.object({
 export const FacebookCodeVerifyResponseSchema = z.object({
     access_token: z.string(),
     token_type: z.string(),
-    expires_in: z.number(),
 });
