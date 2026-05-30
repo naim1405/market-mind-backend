@@ -84,14 +84,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Rate limiting
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: 'Too many requests from this IP, please try again later.',
-    standardHeaders: true,
-    legacyHeaders: false,
-});
-app.use('/api/', limiter);
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100,
+//     message: 'Too many requests from this IP, please try again later.',
+//     standardHeaders: true,
+//     legacyHeaders: false,
+// });
+// app.use('/api/', limiter);
 
 app.get('/', (_req: Request, res: Response) => {
     res.status(httpStatus.OK).type('html').send(welcomeHtml);
