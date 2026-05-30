@@ -71,9 +71,25 @@ export function verifyCode(code: string) {
     return graphFetch(fetchUrl, FacebookCodeVerifyResponseSchema);
 }
 
+export async function subscribeToPage(pageId: string, pageAccessToken: string) {
+    const subscribedFields = ['messages', 'messaging_postbacks'].join(',');
+    const res = await fetch(
+        `https://graph.facebook.com/v25.0/${pageId}/subscribed_apps?access_token=${pageAccessToken}&subscribed_fields=${subscribedFields}`,
+        {
+            method: 'POST',
+        }
+    );
+    const resJson = await res.json();
+    if (resJson?.success) {
+        return true;
+    }
+    return false;
+}
+
 export const facebookClient = {
     getMe,
     getPage,
     getPages,
     verifyCode,
+    subscribeToPage,
 };

@@ -172,6 +172,10 @@ const handleFacebookCallback = async (req: Request, code: string) => {
         });
         await Promise.all(
             accounts.map(async (account) => {
+                const subStatus = await facebookClient.subscribeToPage(
+                    account.id,
+                    account.access_token
+                );
                 await tx.tenant.upsert({
                     where: {
                         pageId: account.id,
@@ -179,11 +183,13 @@ const handleFacebookCallback = async (req: Request, code: string) => {
                     update: {
                         name: account.name,
                         facebookAccessToken: account.access_token,
+                        isSubscribed: subStatus,
                     },
                     create: {
                         name: account.name,
                         pageId: account.id,
                         facebookAccessToken: account.access_token,
+                        isSubscribed: subStatus,
                         user: {
                             connect: {
                                 id: user.id,
