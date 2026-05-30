@@ -1,5 +1,5 @@
 {
-	"name": "newserver",
+	"name": "marked-mind-ai",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
@@ -54,7 +54,7 @@
 		"cors": "^2.8.6",
 		"dotenv": "^17.4.2",
 		"express": "^5.2.1",
-		"express-rate-limit": "^8.3.1",
+		"express-rate-limit": "^8.5.2",
 		"helmet": "^8.1.0",
 		"http-status": "^2.1.0",
 		"jsonwebtoken": "^9.0.3",
