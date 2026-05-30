@@ -4,3 +4,5 @@
 [ ] verify session in callback
 [x] fetch user and accounts
 [x] store user and accounts in database
+
+

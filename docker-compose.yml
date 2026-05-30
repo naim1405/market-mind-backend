@@ -24,6 +24,15 @@ services:
             timeout: 5s
             retries: 10
 
+    redis:
+        container_name: redis
+        image: redis:7-alpine
+        ports:
+            - '6379:6379'
+        restart: unless-stopped
+        command: ["redis-server", "--appendonly", "yes"]
+        volumes:
+            - redis_data:/data
     db-init-replica:
         container_name: db-init-replica
         image: mongo:7
@@ -63,3 +72,4 @@ services:
 volumes:
     mongo_data:
     app_log:
+    redis_data:

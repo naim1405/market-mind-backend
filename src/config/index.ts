@@ -12,6 +12,7 @@ export default {
     env: process.env['NODE_ENV'],
     port: process.env['PORT'],
     database_url: process.env['DATABASE_URL'],
+    redis_url: process.env['REDIS_URL'],
     backend_url: process.env['BACKEND_URL'],
     frontend_url: process.env['FRONTEND_URL'],
     email: process.env['EMAIL'],
